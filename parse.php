@@ -22,15 +22,14 @@ if(isset($_SESSION['uid'])&&isset($_SESSION['login'])){
 	
 }else{
 	
-	echo "無法登入";
-	
+	echo "非法登入";
+	exit;
 	
 }
 
-
 include('simple_html_dom.php');
 $uid = $_SESSION['uid'];
-$htmlcon = "http://hcy.idv.tw/utlms/$uid.html";
+$htmlcon = "http://hcy.idv.tw/utlms/profiledata/$uid.html";
 $html = file_get_html($htmlcon);
 //Get semester
 $semesterResult=$html->find("div.hint");
@@ -95,6 +94,21 @@ foreach($b_course as $v) {
     $course_key++;
 }
 
+//Get all time
+$time=$allDataHtml->find("span.hint");
+echo "<br>========================<br>";
+$all_time;
+$i=0;
+foreach($time as $v) { 
+    $all_time[$i]=$v->plaintext;
+    echo '<br>'.$v->plaintext; 
+    $i++;
+}
+
+$discuss_time;
+$event_time;
+$bulletin_time;
+
 
 //Get bulletin
 $bulletinResult=$allDataHtml->find("span.Eannounce");
@@ -130,7 +144,12 @@ foreach($eventResult as $v) {
     echo '<br>'.$v->plaintext;   
     $event_key++;    
 }
-
+$eventResult2=$allDataHtml->find("span.Equiz ");
+foreach($eventResult2 as $v) {
+    $event[$event_key]=$v->plaintext;
+    echo '<br>'.$v->plaintext;   
+    $event_key++;    
+}
 
 //Get discuss and discuss course
 $discussResult=$allDataHtml->find("span.hidden");
@@ -138,11 +157,15 @@ $discuss;
 $length=count($discussResult);
 $discuss_course;
 $discuss_key=$length-$event_key-$bulletin_key-$document_key;
+
+echo '<br> all key number: length:'.$length." event key:".$event_key. " bulletin key:" .$bulletin_key." document key: ".$document_key. " discuss key: ".$discuss_key;
+
 echo '<br>DISCUSS<br>';
 for($i=0;$i<$discuss_key;$i++){
    $discuss[$i]=$discussResult[$i]->plaintext;
    echo '<br>'.$discuss[$i];
    $discuss_course[$i]=$all_course[$i];
+   $discuss_time[$i] = $all_time[$i];
 }
 
 //Get event course, document course, bulletin course
@@ -151,7 +174,9 @@ $document_course;
 $bulletin_course;
 for($i=0;$i<$event_key;$i++){   
    $event_course[$i]=$all_course[$i+$discuss_key];
+   $event_time[$i]=$all_time[$i+$discuss_key];
    echo '<br>'.$event_course[$i];
+   echo '<br>'.$event_time[$i];
 }
 
 for($i=0;$i<$document_key;$i++){      
@@ -161,15 +186,19 @@ for($i=0;$i<$document_key;$i++){
 
 for($i=0;$i<$bulletin_key;$i++){    
    $bulletin_course[$i]=$all_course[$i+$discuss_key+$event_key+$document_key];
+   $bulletin_time[$i]=$all_time[$i+$discuss_key+$event_key+$document_key];
    echo '<br>'.$bulletin_course[$i];
 }
 
 
 $course = implode("***",$course);
 $discuss_course = implode("***",$discuss_course);
+$discuss_time = implode("***",$discuss_time);
 $event_course = implode("***",$event_course);
+$event_time = implode("***",$event_time);
 $document_course = implode("***",$document_course);
 $bulletin_course = implode("***",$bulletin_course);
+$bulletin_time = implode("***",$bulletin_time);
 $bulletin = implode("***",$bulletin);
 $document = implode("***",$document);
 $event = implode("***",$event);
@@ -189,7 +218,7 @@ if ($conn->query($sqlfirst) === TRUE) {
     echo "Error deleting record: " . $conn->error;
 }
 
-$sql = "INSERT INTO utlms (semester, course, profile, discuss_course, event_course, document_course, bulletin_course, bulletin,document, event, discuss, uid) VALUES ('$semester','$course','$profile','$discuss_course', '$event_course', '$document_course', '$bulletin_course', '$bulletin', '$document', '$event', '$discuss', '$uid')";
+$sql = "INSERT INTO utlms (semester, course, profile, discuss_course, discuss_time, event_course, event_time, document_course, bulletin_course, bulletin_time, bulletin,document, event, discuss, uid) VALUES ('$semester','$course','$profile','$discuss_course', '$discuss_time','$event_course', '$event_time', '$document_course', '$bulletin_course', '$bulletin_time', '$bulletin', '$document', '$event', '$discuss', '$uid')";
 
 
 if ($conn->query($sql) === TRUE) {

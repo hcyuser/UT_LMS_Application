@@ -27,11 +27,11 @@ $output = curl_exec ($ch);
 
 
 
-$file = fopen("$uid.html","w"); //開啟檔案
+$file = fopen("./profiledata/$uid.html","w"); //開啟檔案
 fwrite($file,$output);
 fclose($file);
 
-if(file_exists ("$uid.html")){
+if(file_exists ("./profiledata/$uid.html")){
     $_SESSION['uid'] = $uid;
     $_SESSION['login'] = 1;
     echo "Success";
