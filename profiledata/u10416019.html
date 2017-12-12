@@ -1,0 +1,536 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>臺北市立大學數位學習系統</title>
+<style>@import URL("/sys/style/dom.css");</style>
+<style>@import URL("/sys/style/style.css");</style>
+<style>@import URL("/sys/style/clist.css");</style>
+<style>@import URL("/sys/style/cbutton.css");</style>
+<style>@import URL("/sys/style/home.css");</style>
+<style>@import URL("/sys/style/form.css");</style>
+<style>@import URL('/sys/style/highslide.css');</style>
+
+<script type="text/javascript" src="/sys/lib/js/res.php"></script>
+<script type="text/javascript" src="/sys/lib/js/lib.js"></script>
+<script type="text/javascript" src='/sys/lib/js/jquery.js'></script>
+<script type="text/javascript" src='/sys/lib/js/jquery.ui.widget.js'></script>
+<script type="text/javascript" src='/sys/lib/js/jquery.iframe-transport.js'></script>
+<script type="text/javascript" src='/sys/lib/js/jquery.fileupload.js'></script>
+<script type="text/javascript" src='/sys/lib/js/fileUpload.js'></script>
+
+<script type="text/javascript" src='/sys/lib/js/dom.js'></script>
+<script src='/sys/lib/js/highslide-with-html.js'></script>
+<script>
+    function editCss()
+    {
+        $showModal("編輯樣式", "/blog/theme_edit.php", 800, 550, onFinish);
+    }
+
+    function selectTheme()
+    {
+        $showModal("套用版面樣式", "/blog/theme.php", 800, 550, onFinish);
+    }
+
+    function onFinish()
+    {
+        window.location.href =  window.location.href;
+    }
+    function switchUser()
+    {
+        $showModal("切換登入帳號", "/sys/adm/su.php?from=home", 300, 200, onFinish);
+    }
+    function boardMgr()
+    {
+        $showModal('管理我的社群', '/home/board_mgr.php', 650, 500, onFinish);
+    }
+</script>
+</head>
+<body align='center'>
+<div id=wrapper>
+    <div id=base>
+        <div>
+            <div id=sysbar>
+    <div id=logo><a href='/home.php'><img src='/banner.gif' border=0></a></div>
+    <div id=sign>
+        <div id=login>
+            <script type="text/javascript">var gRedirectHome = false;</script><script type="text/javascript">
+    var res = {
+        account:  '帳號',
+        password: '密碼',
+        remember: '記住我的登入資訊',
+        passwd_forgot: '忘記密碼',
+        ok:       '確定',
+        login:    '登入',
+        help:     '登入說明',
+        noaccount:  '請輸入: 帳號',
+        nopassword: '請輸入: 密碼',
+        noseccode:  '請輸入: 校驗碼'
+    }, 
+    sysconf = {
+        domain    : 'lms.utaipei.edu.tw', 
+        ssl_login : 0    };
+    
+    var checkSecCode;		
+        checkSecCode = false;
+    function openDialog(title, url, w, h) { $showModal(title, url, w, h, onOpenDialogLoad); }
+    function onOpenDialogLoad() { $reload(); }
+</script>
+<script type="text/javascript" src='/lib/js/login.js'></script>
+<img src='/sys/res/icon/arrow_right.gif' style='padding:0px 2px 0px 10px; vertical-align: middle'><a href='/' id='_lms'>LMS</a><span style='font-weight:bold'><img src='/sys/res/icon/arrow_right.gif' style='padding:0px 2px 0px 10px; vertical-align: middle'><a href='/home.php'>我的首頁</a><img src='/sys/res/icon/line.gif' style='padding: 0 5px;'></span><a href='javascript:logout()'>登出(u10416019)</a>        </div>
+
+        <div style='text-align:right;'>
+中文(台灣)<img src='/sys/res/icon/line.gif' style='padding: 0 8px;'><a href='javascript:m_changeLang("en-us")'>English(US)</a><img src='/sys/res/icon/line.gif' style='padding: 0 8px;'><a href='http://sites.powercam.cc/site/ilms' target=_blank>Q&amp;A</a><img src='/sys/res/icon/line.gif' style='padding: 0 8px;'>線上人數: <span id='counter'>207</span>&nbsp;&nbsp;<input id=txtSearch onkeypress='$searchEnter(event)' type='text' style='height:15px; font-size:12px; width:80px;'>&nbsp;<img style='cursor:pointer' onclick='$searchSubmit()' src='/sys/res/icon/find.png' align=absmiddle>        </div>
+    </div>
+
+    <div class=clear></div>
+</div>
+
+<script>
+    var gSessActiveLife = 300;
+    setTimeout("updateCount()", gSessActiveLife * 1000);
+
+    function updateCount()
+    {
+        var lim = gSessActiveLife;
+        var obj = $syncload("/http_get_count.php", {limit:lim});
+        if (obj && obj.ret && obj.ret.count)
+            $("counter").innerHTML = obj.ret.count;
+        setTimeout("updateCount()", lim * 1000);
+    }
+
+    function $searchEnter(e)
+    {
+        var evt = (window.event) ? event : e;
+        var key = (evt.charCode) ? evt.charCode : evt.keyCode;
+        if (key == 13) $searchSubmit();
+    }
+    function $searchSubmit()
+    {
+        var k = encodeURIComponent($V("txtSearch"));
+        if (k == "") return;
+window.open('/search.php?scope=2&area=123&page=1&fmKeyword=' + k);    }
+    
+    function m_changeLang(newLang)
+    {
+        if (newLang == "all")
+        { 
+            $showModal("選擇語言版本", "/languages.php", 500, 300, onFinish); 
+        }
+        else
+        {
+            $setCookie("ck_locale", newLang, 365);
+            $load("/sys/lib/ajax/change_lang.php",{locale:newLang}, m_onChangeLang);
+        }
+    }
+
+    function m_onChangeLang(obj) { window.location.reload(); }
+</script>        </div>
+        <div id=mainbody>
+            <div id=left>
+                <div id='eeclassLoad' style='display:none; padding:3px; position:relative; width:230px; left:480px; top:220px; font-family:Arial,Helvetica,sans-serif; color:red; font-size:12px; border-width:1px; border-style:solid; border-color:red; background-color:#FFFFFF'>
+        &nbsp;<img src='/sys/res/icon/wait.gif' align='absmiddle' /><b>&nbsp;&nbsp;&nbsp;loading ee-class 上的課程資訊中 ...</b>
+        </div><div id='loading' style='display:none; padding:3px; position:relative; width:95px; left:540px; top:170px; font-family:Arial,Helvetica,sans-serif; color:red; font-size:12px; border-width:1px; border-style:solid; border-color:red; background-color:#FFFFFF'>
+        &nbsp;<img src='/sys/res/icon/wait.gif' align='absmiddle' /><b>&nbsp;&nbsp;&nbsp;Loading...</b>
+        </div>
+            <div class=mnu>
+                <div class=mnuTop><img src='/sys/res/icon/blank.gif'></div>
+                <div class=mnuBody>
+                    <div class=mnuTitle>我的課程</div>
+                    <div class=hint style='margin-top:5px;'>[學期: 1061]</div><div class=mnuItem>1. <a href='/course/46621' title='2815:資科系三'>Android應用程式專案開發與社群媒體應用</a> <span class=smallfont>(2815)</span></div><div class=mnuItem>2. <a href='/course/45427' title='1372:資科系三'>作業系統</a> <span class=smallfont>(1372)</span></div><div class=mnuItem>3. <a href='/course/45425' title='1370:資科系三'>大學生活學習與輔導</a> <span class=smallfont>(1370)</span></div><div class=mnuItem>4. <a href='/course/46656' title='2860:資科系三'>微處理機介面技術</a> <span class=smallfont>(2860)</span></div><div class=mnuItem>5. <a href='/course/45428' title='1373:資科系三'>演算法</a> <span class=smallfont>(1373)</span></div><div class=mnuItem>6. <a href='/course/46658' title='2862:資科系三'>網路程式設計</a> <span class=smallfont>(2862)</span></div><div class=mnuItem>7. <a href='/course/45426' title='1371:資科系三'>自動機與形式語言</a> <span class=smallfont>(1371)</span></div><div style='margin-top:5px;'></div><div class=mnuItem>[<a href='/home.php?f=score'>成績查詢</a>]</div>
+                    <div class=hr></div>
+                    <div class=mnuLink><a href='/home.php?f=calendar'>個人行事曆</a> / <a href='/home.php?f=class_schedule'>我的課表</a></div>
+                    <div class=mnuLink><a href='/home.php?f=allcourse'>歷年課程檔案</a></div>
+                    <div class=mnuLink><a href='/home.php?f=learn_log'>學習記錄</a></div>                    
+                    
+                    
+                    
+                </div>
+                <div class=mnuBottom></div>
+            </div>
+        
+            <div class=mnu>
+                <div class=mnuTop><img src='/sys/res/icon/blank.gif'></div>
+                <div class=mnuBody>
+                <div class=mnuTitle>u10416019 的小檔案 <span class=hint>[<a href='javascript:openDialog("個人資訊", "/home/profile.php", 600, 400)'>編輯</a>]</span> </div>
+                    <div id=profile>
+                        <div style='float:left; padding:1px; border:1px solid #ddd'><img src='/sysdata/user/58/u10416019/photo/m.jpg'></div>
+                        <div style='float:left; padding-left:4px'>
+                            <div><span class=lt>姓名:</span> 鄭文琪</div>
+                            <div><span class=lt>最後登入:</span> 12-12 13:37</div>
+                            <div><span class=lt>登入次數:</span> 901</div>
+                        </div>
+                        <div class=clear></div>
+                        
+                        
+                        <span class=lt>容量:</span> <span style='color:#000'>剩餘 20 MB</span>(20 MB)</br>
+                        <div class=mnuLink><a href='/home.php?f=webhd'>檔案庫</a></div>
+                        
+                        
+                    </div>
+                </div>
+                <div class=mnuBottom><img src='/sys/res/icon/blank.gif'></div>
+            </div>
+                    </div>
+
+            <div id=right>
+                <script src='/lib/js/calendar.js'></script>
+<script>
+    function reloadme(obj){    window.location.reload(); }
+
+    function recentBox(id)
+    {
+        ( $("r" + id).style.display == "none" ) ? $("r" + id).style.display = "block" : $("r" + id).style.display = "none";
+        if ( $("r" + id).style.display == "block" ) $load("/home/http_event_select.php", _param = {id:id, type:"r"}, recentcb);
+    }
+
+    function newsBox(id)
+    {
+        ($("n" + id).style.display == "none") ? $("n" + id).style.display = "block" : $("n" + id).style.display = "none";
+        if ( $("n" + id).style.display == "block" ) $load("/home/http_event_select.php", _param = {id:id, type:"n"}, newscb);
+    }
+    
+    function newsBoxEEClass(id, api)
+    {
+        ($("n" + id).style.display == "none") ? $("n" + id).style.display = "block" : $("n" + id).style.display = "none";
+        if ( $("n" + id).style.display == "block" ) {
+            loadjscssfile(api, 'js');
+        }
+    }
+
+    function loadjscssfile(filename, filetype){
+        if (filetype=="js"){ //if filename is an external JavaScript file
+            var fileref=document.createElement('script')
+            fileref.setAttribute("type","text/javascript")
+            fileref.setAttribute("src", filename)
+        }
+        else if (filetype=="css"){ //if filename is an external CSS file
+            var fileref=document.createElement("link")
+            fileref.setAttribute("rel", "stylesheet")
+            fileref.setAttribute("type", "text/css")
+            fileref.setAttribute("href", filename)
+        }
+        if (typeof fileref!="undefined")
+            document.getElementsByTagName("head")[0].appendChild(fileref)
+    }
+
+    function am_pm(d)
+    {
+        var e = "";
+        if ( d.length > 5 )    { var e = d.substr(0, d.length-5); d = d.substr(d.length-5, 5); }
+
+        var h = d.substr(0, 2);
+        var m = d.substr(3, 2);
+
+        d = ( h > 12 ) ? h -12 + ":" + m + "pm" : h + ":" + m + "am";
+
+        return e + d;
+    }
+
+    function titleDate(start, end)
+    {
+        var date = "";
+
+        if ( start.substr(11, 8) == "00:00:00" )
+        {
+            date = start.substr(5, 5);
+            if (start.substr(5, 5) != end.substr(5, 5)) date += " ~ " + end.substr(5, 5);
+        }
+        else
+        {
+            if ( start.substr(0, 10) == end.substr(0, 10) ) date = am_pm(start.substr(5, 11)) + " ~ " + am_pm(end.substr(11, 5));
+            else date = am_pm(start.substr(5, 11)) + " ~ " + am_pm(end.substr(5, 11));
+        }
+
+        return date;
+    }
+
+    function recentcb(obj)
+    {
+        var r = obj.recent;
+        var _html = "";
+
+        var date = titleDate(r.start, r.end);
+        if ( date != "" )
+        {
+            _html += "<div class='small em' style='padding-bottom:5px'>";
+                _html += r.msgDate + ": " + date;
+            _html += "</div>";
+        }
+
+        //r.note = r.note.replace(/<[^>]*>/g, "");
+
+        if ( r.note ) _html += "<div>" + r.note + "</div>";
+
+        _html += r.edt;
+        $("r" + r.id).innerHTML = _html;
+    }
+
+    function checkDelete(id)
+    {
+        if (!confirm("確定要刪除嗎?")) return;
+        $load("/course/calendar/deleteEvent.php", param = {id:id, courseID:"-1"}, reloadme);
+    }
+
+    function newscb(obj)
+    {
+        var n = obj.news;
+        var _html = "";
+
+        _html = "<div>" + n.note + "</div>";
+        if ( n.attach ) _html += "<div>" + n.attach + "</div>";
+
+        $("n" + n.id).innerHTML = _html;
+    }
+
+    function cb(){ $closeModal(); if (!$modalarg) return; if ($modalarg.reload) { window.location.reload(); return; } }
+
+    function changeRssSN(rssID)
+    {
+        var obj = $syncload("/sys/lib/ajax/rss_sn.php", {rssID:rssID, userID:28858});
+        if (obj == "")
+        {
+            alert("loading data error!");
+            return;
+        }
+
+        var rss = obj.rss;
+        var items = rss.items;
+        var sel = (rss.after == 0) ? "selected" : "";
+
+        var h = "<div>";
+        h += "順序 <select id='SelSN' style='width:168px' size=1>";
+        h += "<option " + sel + " value='0'> 最前面"
+        for (var i=0; i<items.length; i++)
+        {
+            if (rss.after == i) continue;
+            sel = (rss.after == i+1) ? "selected" : "";
+            h += "<option " + sel + " value='" + items[i].sn + "'>" + items[i].title + "</option>";
+        }
+        h += "</select> 之後";
+        h += "</div>";
+        h += "<div style='padding:10px 0px 0px 0px'><input onclick='changeRssSnSubmit(" + rssID + ")' type=button value='確定'>";
+
+
+        var a = $area($("sn" + rssID));
+        var title = "<div style='float:left'>調整順序</div><div class='hint hidden' style='width:170px; text-align:left; float:left'>(" + rss.title + ")</div>";
+        $showPopup(title, h, a.left + a.width - 260, a.top + a.height + 2, 260);
+    }
+    function changeRssSnSubmit(id)
+    {
+        var sel = $("SelSN").options[$("SelSN").selectedIndex].value;
+        $syncload("/sys/lib/ajax/rss_changesn.php", {id:id, after:sel});
+        $reload();
+    }
+    function add_rss()
+    {
+        $showModal('新增 RSS 訂閱', '/home/rss_insert.php', 600, 150, onFinish);
+    }
+
+    function edit_rss(id)
+    {
+        $showModal('編輯 RSS 訂閱', '/home/rss_edit.php?id=' + id, 600, 150, onFinish);
+    }
+    function del_rss(id)
+    {
+        $showModal('刪除 RSS 訂閱', '/home/rss_delete.php?id=' + id, 380, 200, onFinish);
+    }
+    function removeLoad()
+    {
+        jQuery("#eeclassLoad").remove();
+    }
+    function addLoad()
+    {
+        jQuery("#eeclassLoad").show();
+    }
+    function redirEEClassHome()
+    {
+        var checkUrl = window.location.origin + '/checkEEClassUrl.php',
+            apiUrl = '';
+
+        jQuery.ajax({
+            async: false,
+            method: "POST",
+            url: checkUrl,
+            data: {
+                isCourse: 0
+            }
+        }).done(function( ret ) {
+            apiUrl = ret;
+        }).fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+        });
+
+        if ( apiUrl ) {
+            jQuery(this).one("click", function() {
+                return false;
+            });
+
+            window.open(apiUrl);
+        }
+    }
+</script>
+<script>removeLoad();</script>
+                 <div id=currPos>
+                    位置: <span id=currPosTitle>我的首頁</span>
+                    <span class=tool><img align=absmiddle src='/sys/res/icon/check.gif'><a href='javascript:add_rss()'>訂閱 RSS</a></span>
+                 </div><div style='padding-bottom:20px'>
+                     <div style='padding-bottom:30px'>
+                          <div class=BlockL>
+                    <div style='border-bottom: 3px solid #fc8;'>
+                        <div style='float:left; width:75%' class='em itemRect'>最新討論 <span class=hint><a href='/home.php?f=event&mode=f&more=TRUE'>...更多</a></span></div>
+                        <div style='float:right; width:20%; text-align:left' class=hint>課程</div>
+                        <div class=clear></div>
+                    </div>
+                   
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>1. <span class=' hidden'><a href='/course.php?courseID=45427&f=forum&tid=241195'>明天提早到2點上課呦</a></span><span class=hint title='2017-12-11'>(12-11)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45427'>作業系統</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>2. <span class=' hidden'><a href='/course.php?courseID=45427&f=forum&tid=239914'>明天是3點上課呦~~~</a></span><span class=hint title='2017-12-04'>(12-04)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45427'>作業系統</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>3. <span class=' hidden'><a href='/course.php?courseID=46621&f=forum&tid=237469'>project分組名單</a></span><span class=hint title='2017-11-30'>(11-30)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=46621'>Android應用程式專案開發與社群媒體應用</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>4. <span class=' hidden'><a href='/course.php?courseID=46621&f=forum&tid=239160'>張哲瑋</a></span><span class=hint title='2017-11-30'>(11-30)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=46621'>Android應用程式專案開發與社群媒體應用</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>5. <span class=' hidden'><a href='/course.php?courseID=45427&f=forum&tid=238583'>明天2點上課</a></span><span class=hint title='2017-11-28'>(11-28)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45427'>作業系統</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>6. <span class=' hidden'><a href='/course.php?courseID=45427&f=forum&tid=233954'>11/14期中考 G314 15:00-18:00</a></span><span class=hint title='2017-11-08'>(11-08)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45427'>作業系統</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>7. <span class=' hidden'><a href='/course.php?courseID=45427&f=forum&tid=233745'>排課連結</a></span><span class=hint title='2017-11-07'>(11-07)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45427'>作業系統</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              
+                            </div>
+                          <div class=BlockR>
+                    <div style='border-bottom: 3px solid #fc8;'>
+                        <div style='float:left; width:75%' class='em itemRect'>最近事件 </div>
+                        <div style='float:right; width:20%; text-align:left' class=hint>課程</div>
+                        <div class=clear></div>
+                    </div>
+                   </div>
+                          <div class=clear></div>
+                     </div>
+                     <div style='padding-bottom:10px'>
+                          <div class=BlockL>
+                    <div style='border-bottom: 3px solid #fc8;'>
+                        <div style='float:left; width:75%' class='em itemRect'>最新文件 <span class=hint><a href='/home.php?f=event&mode=d&more=TRUE'>...更多</a></span></div>
+                        <div style='float:right; width:20%; text-align:left' class=hint>課程</div>
+                        <div class=clear></div>
+                    </div>
+                   
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>1. <span class='Econtent hidden'><a href='/course.php?courseID=46656&f=doc&cid=775033'>CH07_1_基本輸出入實習二</a></span><span class=hint title='2017-12-08'>(12-08)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=46656'>微處理機介面技術</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n775033' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>2. <span class='Econtent hidden'><a href='/course.php?courseID=45428&f=doc&cid=771184'>期末考古題</a></span><span class=hint title='2017-12-04'>(12-04)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45428'>演算法</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n771184' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>3. <span class='Econtent hidden'><a href='/course.php?courseID=45428&f=doc&cid=771180'>Lecture6</a></span><span class=hint title='2017-12-04'>(12-04)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45428'>演算法</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n771180' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>4. <span class='Econtent hidden'><a href='/course.php?courseID=45426&f=doc&cid=771182'>期末考古題</a></span><span class=hint title='2017-12-04'>(12-04)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45426'>自動機與形式語言</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n771182' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>5. <span class='Econtent hidden'><a href='/course.php?courseID=45426&f=doc&cid=771181'>Lecture7</a></span><span class=hint title='2017-12-04'>(12-04)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45426'>自動機與形式語言</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n771181' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>6. <span class='Econtent hidden'><a href='/course.php?courseID=45428&f=doc&cid=771179'>Lecture5</a></span><span class=hint title='2017-12-04'>(12-04)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=45428'>演算法</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n771179' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>7. <span class='Econtent hidden'><a href='/course.php?courseID=46621&f=doc&cid=768633'>chap8</a></span><span class=hint title='2017-11-30'>(11-30)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=46621'>Android應用程式專案開發與社群媒體應用</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n768633' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            </div>
+                          <div class=BlockR>
+                    <div style='border-bottom: 3px solid #fc8;'>
+                        <div style='float:left; width:75%' class='em itemRect'>最新公告 </div>
+                        <div style='float:right; width:20%; text-align:left' class=hint>課程</div>
+                        <div class=clear></div>
+                    </div>
+                   
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>1. <span class='Eannounce hidden'><a href='javascript:newsBox(773159)'>12月7日（星期四）期中專案報告</a></span><span class=hint title='2017-12-06'>(12-06)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=46621'>Android應用程式專案開發與社群媒體應用</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n773159' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            
+                              <div style='border-bottom:1px solid #eee; width:100%' class='BlockItem'>
+                                  <div style='float:left; width:78%' class=hidden>2. <span class='Eannounce hidden'><a href='javascript:newsBox(753769)'>11/16(四)PM1:30公誠樓G316教室舉行微處理機介面技術期中考試</a></span><span class=hint title='2017-11-10'>(11-10)</span></div>
+                                  <div style='float:right; width:20%' class=hidden><a href='/course.php?courseID=46656'>微處理機介面技術</a></div>
+                                  <div class=clear></div>
+                              </div>
+                              <div id='n753769' style='background:#fff; border:1px solid #f80; display:none; padding:5px;'></div>
+                            </div>
+                          <div class=clear></div>
+                     </div>
+                 </div>
+                            </div>
+            <div class=clear></div>
+        </div>
+
+        <div id="copyright">
+            <div style="text-align: center;">Copyright &copy; 臺北市立大學 All rights reserved.<br>
+        		 <a href="http://www.powercam.com.tw">台灣數位學習科技</a> 建置
+        	     </div>                     </div>
+    </div>
+</div>
+</body>
+</html>

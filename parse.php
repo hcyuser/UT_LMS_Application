@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     session_start();
 ?>
 <html>
@@ -229,9 +230,9 @@ if ($conn->query($sql) === TRUE) {
 
 $conn->close();
 
-//echo "<script type='text/javascript'>";
-//echo "window.location.href='../'";
-//echo "</script>"; 
+echo "<script type='text/javascript'>";
+echo "window.location.href='./dashboard'";
+echo "</script>"; 
     
 ?>
 
