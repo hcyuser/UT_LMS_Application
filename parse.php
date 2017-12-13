@@ -41,7 +41,7 @@ $semester=$semesterResult[0]->plaintext;
 //Get online person number
 $onlineResult=$html->find('span#counter');
 $online=$onlineResult[0]->plaintext;
-echo '<br>ONLINE NUMBER:'.$online;
+//echo '<br>ONLINE NUMBER:'.$online;
 
 //Get course name
 $courseResult=$html->find(".mnuItem");//get course => div class="mnuItem"
@@ -58,25 +58,25 @@ preg_match_all($patten,$getResult,$out);//select course name => <a..href=...> co
 
 for($i=0;$i<$arrayNumber-1;$i++){
     $course[$i]=$out[1][$i];
-    echo '<br>'.$out[1][$i];
+    //echo '<br>'.$out[1][$i];
 }
 
 //Get profile
 $profileResult=$html->find("div#profile");
 $profile="";
-echo '<br>PROFILE';
+//echo '<br>PROFILE';
 foreach($profileResult as $v) {
     $profile .= $v->plaintext;
     //echo '<br>'.$v->plaintext;        
 }
-echo $profile;
+//echo $profile;
 
 //Get all discuss, event, document, bulletin
 $allDataResult=$html->find("div.BlockItem");
 $allData='';
 foreach($allDataResult as $v) {
     $allData.=$v->innertext;
-    echo '<br>'.$v->innertext;        
+    //echo '<br>'.$v->innertext;        
 }
 $allDataHtml=str_get_html($allData);
 
@@ -85,11 +85,11 @@ $b_course=$allDataHtml->find("div.hidden");
 $all_course;
 $course_count=0;
 $course_key=0;
-echo '<br><br>All course';
+//echo '<br><br>All course';
 foreach($b_course as $v) {    
     if(($course_key%2)==1){        
         $all_course[$course_count]=$v->plaintext;
-        echo '<br>'.$v->plaintext; 
+       //echo '<br>'.$v->plaintext; 
         $course_count++;
     }          
     $course_key++;
@@ -97,12 +97,12 @@ foreach($b_course as $v) {
 
 //Get all time
 $time=$allDataHtml->find("span.hint");
-echo "<br>========================<br>";
+//echo "<br>========================<br>";
 $all_time;
 $i=0;
 foreach($time as $v) { 
     $all_time[$i]=$v->plaintext;
-    echo '<br>'.$v->plaintext; 
+    //echo '<br>'.$v->plaintext; 
     $i++;
 }
 
@@ -115,10 +115,10 @@ $bulletin_time;
 $bulletinResult=$allDataHtml->find("span.Eannounce");
 $bulletin;
 $bulletin_key=0;
-echo '<br><br>BULLETIN';
+//echo '<br><br>BULLETIN';
 foreach($bulletinResult as $v) {
     $bulletin[$bulletin_key]=$v->plaintext;
-    echo '<br>'.$v->plaintext;   
+    //echo '<br>'.$v->plaintext;   
     $bulletin_key++;
 }
 
@@ -127,10 +127,10 @@ foreach($bulletinResult as $v) {
 $documentResult=$allDataHtml->find("span.Econtent");
 $document;
 $document_key=0;
-echo '<br><br>DOCUMENT';
+//echo '<br><br>DOCUMENT';
 foreach($documentResult as $v) {
     $document[$document_key]=$v->plaintext;
-    echo '<br>'.$v->plaintext;   
+    //echo '<br>'.$v->plaintext;   
     $document_key++;
 }
 
@@ -139,16 +139,16 @@ foreach($documentResult as $v) {
 $eventResult=$allDataHtml->find("span.Ehomework ");
 $event;
 $event_key=0;
-echo '<br><br>EVENT';
+//echo '<br><br>EVENT';
 foreach($eventResult as $v) {
     $event[$event_key]=$v->plaintext;
-    echo '<br>'.$v->plaintext;   
+    //echo '<br>'.$v->plaintext;   
     $event_key++;    
 }
 $eventResult2=$allDataHtml->find("span.Equiz ");
 foreach($eventResult2 as $v) {
     $event[$event_key]=$v->plaintext;
-    echo '<br>'.$v->plaintext;   
+    //echo '<br>'.$v->plaintext;   
     $event_key++;    
 }
 
@@ -161,10 +161,10 @@ $discuss_key=$length-$event_key-$bulletin_key-$document_key;
 
 echo '<br> all key number: length:'.$length." event key:".$event_key. " bulletin key:" .$bulletin_key." document key: ".$document_key. " discuss key: ".$discuss_key;
 
-echo '<br>DISCUSS<br>';
+//echo '<br>DISCUSS<br>';
 for($i=0;$i<$discuss_key;$i++){
    $discuss[$i]=$discussResult[$i]->plaintext;
-   echo '<br>'.$discuss[$i];
+   //echo '<br>'.$discuss[$i];
    $discuss_course[$i]=$all_course[$i];
    $discuss_time[$i] = $all_time[$i];
 }
@@ -176,35 +176,43 @@ $bulletin_course;
 for($i=0;$i<$event_key;$i++){   
    $event_course[$i]=$all_course[$i+$discuss_key];
    $event_time[$i]=$all_time[$i+$discuss_key];
-   echo '<br>'.$event_course[$i];
-   echo '<br>'.$event_time[$i];
+   //echo '<br>'.$event_course[$i];
+   //echo '<br>'.$event_time[$i];
 }
 
 for($i=0;$i<$document_key;$i++){      
    $document_course[$i]=$all_course[$i+$discuss_key+$event_key];   
-   echo '<br>'.$document_course[$i];
+   //echo '<br>'.$document_course[$i];
 }
 
 for($i=0;$i<$bulletin_key;$i++){    
    $bulletin_course[$i]=$all_course[$i+$discuss_key+$event_key+$document_key];
    $bulletin_time[$i]=$all_time[$i+$discuss_key+$event_key+$document_key];
-   echo '<br>'.$bulletin_course[$i];
+   //echo '<br>'.$bulletin_course[$i];
 }
 
 
 $course = implode("***",$course);
 $discuss_course = implode("***",$discuss_course);
 $discuss_time = implode("***",$discuss_time);
-$event_course = implode("***",$event_course);
-$event_time = implode("***",$event_time);
+
+if(!empty($event)){
+    $event_course = implode("***",$event_course);
+    $event_time = implode("***",$event_time);
+    $event = implode("***",$event);
+}
+
+
 $document_course = implode("***",$document_course);
 $bulletin_course = implode("***",$bulletin_course);
 $bulletin_time = implode("***",$bulletin_time);
 $bulletin = implode("***",$bulletin);
 $document = implode("***",$document);
-$event = implode("***",$event);
+
 $discuss = implode("***",$discuss);
 $conn = new mysqli("localhost","hcy_utlms","utaipei8362","hcy_utlms");
+
+
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

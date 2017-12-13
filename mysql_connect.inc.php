@@ -33,22 +33,48 @@ $discuss=$row_result["discuss"];
 
 
 $course = explode("***",$course);
-$discuss_course = explode("***",$discuss_course);
-$discuss_time = explode("***",$discuss_time);
-$event_course = explode("***",$event_course);
-$event_time = explode("***",$event_time);
+
+if(!empty($discuss)){
+    $discuss_course = explode("***",$discuss_course);
+    $discuss_time = explode("***",$discuss_time);
+    $discuss = explode("***",$discuss);
+    $discuss_number=count($discuss);
+}
+else{
+    $discuss_number=0;
+    $discuss_course =array("");
+    $discuss_time =array("");
+    $discuss =array("");
+}
+
+if(!empty($event)){
+    $event_course = explode("***",$event_course);
+    $event_time = explode("***",$event_time);
+    $event = explode("***",$event);
+    $event_number=count($event);
+}
+else{
+    $event_number=0;
+    $event_course =array("");
+    $event_time =array("");
+    $event =array("");
+}
+
+if(!empty($bulletin)){
+    $bulletin_course = explode("***",$bulletin_course);
+    $bulletin_time = explode("***",$bulletin_time);
+    $bulletin = explode("***",$bulletin);
+    $bulletin_number=count($bulletin);
+}
+else{
+    $bulletin_number=0;
+    $bulletin_number=0;
+    $bulletin_course =array("");
+    $bulletin_time =array("");
+    $bulletin =array("");
+}
 //$document_course = explode("***",$document_course);
-$bulletin_course = explode("***",$bulletin_course);
-$bulletin_time = explode("***",$bulletin_time);
-$bulletin = explode("***",$bulletin);
 //$document = explode("***",$document);
-$event = explode("***",$event);
-$discuss = explode("***",$discuss);
-
-$discuss_number=count($discuss_course);
-$event_number=count($event_course);
-$bulletin_number=count($bulletin);
-
 
 //profile reference
 $name;

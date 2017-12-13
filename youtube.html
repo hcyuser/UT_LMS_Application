@@ -62,8 +62,12 @@
         for(var i = 0; i < data.items.length; i++){
           videoURL = data.items[i].snippet.thumbnails.medium.url;
           videoId = data.items[i].id.videoId;
+          
           resultsHTML += '<a target="_blank" href="https://youtu.be/'+ videoId +'">';
           resultsHTML += '<img src="' + videoURL + '"></a>';
+          /*
+          resultsHTML += '<iframe width="560" height="315" src="https://www.youtube.com/embed/'+ videoId +'" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>';
+          */
         }
         $('#js-search-results').html(resultsHTML);
         //remove event listener to avoid multiple event listeners

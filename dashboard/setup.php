@@ -62,62 +62,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">校園個人化系統</a>
+                <a class="navbar-brand" href="index.php">校園個人化系統</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu message-dropdown">
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>信箱名稱～</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> 昨天 下午 4:32 </p>
-                                        <p>作業缺繳通知[Android應用程式專案開發與社群...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>信箱名稱～</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> 前天 上午 11:32</p>
-                                        <p>新增獎學金項目...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>信箱名稱～</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> 前天 上午 11:32</p>
-                                        <p>新增獎學金項目...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-footer">
-                            <a href="#">Read All New Messages</a>
-                        </li>
-                    </ul>
+                    <a href="email.html"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
@@ -145,10 +95,10 @@
                     <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="setup.html"><i class="fa fa-fw fa-user"></i> 個人檔案</a>
+                            <a href="setup.php"><i class="fa fa-fw fa-user"></i> 個人檔案</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> 信箱</a>
+                            <a href="email.html"><i class="fa fa-fw fa-envelope"></i> 信箱</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-fw fa-gear"></i> 設定</a>
