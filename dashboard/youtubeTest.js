@@ -69,8 +69,8 @@ function onSearchResponse(response,setKey) {
     for (var i = 0; i < resultNumber; i++) {
         var id = item[i].id.videoId;
         var title = item[i].snippet.title;
-        result=title+"\t https://www.youtube.com/watch?v="+id+"\n";
-        //result='<iframe name="video" width="560" height="315" src="https://www.youtube.com/embed/'+id+'" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>';
+        //result=title+"\t https://www.youtube.com/watch?v="+id+"\n";
+        result='<iframe name="video" width="560" height="315" src="https://www.youtube.com/embed/'+id+'" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>';
         var setId = "output"+count;
         var output = document.getElementById(setId);  
         var ele = document.createElement("div");  
