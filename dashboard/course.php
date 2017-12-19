@@ -192,7 +192,7 @@
                                 
                                     
                                 <?php    
-                                $delayTime=500;
+                                $delayTime=2000;
                             /*
                                 echo '<form action="#" id="js-search-form" class="form-style" onload="getDataFromSearch(searchTerm, showApiData)">
                                             </form>
@@ -201,14 +201,13 @@
                             
                             */
                             foreach($course as $key=>$v){
-                                $delayTime+=50*$key;
-                                /*
+                                $delayTime+=500*$key;
+                                
                                 if(($key % 4) == 1){
                                     echo '<div class="panel panel-danger">
                                         <div class="panel-heading">
                                         <h3 class="panel-title">' .$v. '</h3>
-                                    </div>
-                                    <div class="panel-body">';
+                                    </div>';
                                        // Panel content
                                     //</div></div>';
                                 }
@@ -216,8 +215,7 @@
                                     echo '<div class="panel panel-warning">
                                         <div class="panel-heading">
                                         <h3 class="panel-title">' .$v. '</h3>
-                                    </div>
-                                    <div class="panel-body">';
+                                    </div>';
                                         //Panel content
                                    // </div></div>';
                                 }
@@ -225,8 +223,7 @@
                                     echo '<div class="panel panel-success">
                                         <div class="panel-heading">
                                         <h3 class="panel-title">' .$v. '</h3>
-                                    </div>
-                                    <div class="panel-body">';
+                                    </div>';
                                        // Panel content
                                     //</div></div>';
                                 }
@@ -235,23 +232,16 @@
                                     echo '<div class="panel panel-info">
                                         <div class="panel-heading">
                                         <h3 class="panel-title">' .$v. '</h3>
-                                    </div>
-                                    <div class="panel-body">';
+                                    </div>';
                                 }
-                                */
+                                
                                 /*
                                 echo '<div class="panel panel-info">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">' .$v. '</h3>
-                                        </div>
-                                        <div class="panel-body">'.$result[$key].'</div>
-                                </div>';
+                                        </div>';
                                 */
-                                echo '<div class="panel panel-info">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">' .$v. '</h3>
-                                        </div>
-                                        <div class="panel-body" id="output'.$key.'">';
+                                echo '                                        <div class="panel-body" id="output'.$key.'">';
                                 echo '
                                 <script type="text/javascript">
                                 setTimeout(function(){
