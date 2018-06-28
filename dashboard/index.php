@@ -3,20 +3,21 @@
     session_start();
 
     if(isset($_SESSION['uid'])&&isset($_SESSION['login'])){
-        	
+
         if ($_SESSION['login']==0 or $_SESSION['uid']==null){
                     echo $uid."您好，您輸入的密碼或帳號錯誤!";
                     exit;
         	}
         	include('../mysql_connect.inc.php');
-        	
+        	$_SESSION['semester']=$semester;
+          $_SESSION['name']=$name;
         }else{
-        	
+
         	echo "非法登入";
         	exit;
-        	
+
         }
-    
+
 ?>
 <!DOCTYPE html>
 <html lang="zh-tw">
@@ -73,7 +74,7 @@
                     <a href="email.html"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                     <!--
                     <ul class="dropdown-menu message-dropdown">
-                        
+
                         <li class="message-preview">
                             <a href="#">
                                 <div class="media">
@@ -122,7 +123,7 @@
                         <li class="message-footer">
                             <a href="#">Read All New Messages</a>
                         </li>
-                        
+
                     </ul>
                     -->
                 </li>
@@ -141,11 +142,11 @@
                         <li>
                             <a href="#">學習紀錄 </a>
                         </li>
-                        
+
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> 
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
                     <?php
                         echo $name;
                     ?>
@@ -231,7 +232,7 @@
                                         <div>討論區</div>
                                     </div>
                                 </div>
-                            
+
                             <div class="panel panel-default">
                                 <div class="list-group">
                                     <?php
@@ -245,7 +246,7 @@
                                     ?>
                                 </div>
                             </div>
-                                
+
                             </div>
                             <a href="#">
                                 <div class="panel-footer">
@@ -285,7 +286,7 @@
                                         }
                                     ?>
                                 </div>
-                            </div> 
+                            </div>
                             </div>
                             <a href="#">
                                 <div class="panel-footer">
@@ -336,7 +337,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
                 <!-- /.row -->
 <!--pie chart
@@ -354,10 +355,10 @@
                             </div>
                         </div>
                     </div>
-                </div>    
-  -->                  
-                    
-                   
+                </div>
+  -->
+
+
 
             </div>
             <!-- /.container-fluid -->
@@ -382,5 +383,3 @@
 </body>
 
 </html>
-
-

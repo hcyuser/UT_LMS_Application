@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Record on Finance System</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+      $(document).ready( function() {
+        $('#date').val(new Date().toDateInputValue());
+      });
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              var myObj = JSON.parse(this.responseText);
+               $("#semester").val(myObj.semester);
+               $("#uid").val(myObj.uid);
+               $("#name").val(myObj.name);
+                $("#semestershow").val(myObj.semester);
+               $("#uidshow").val(myObj.uid);
+               $("#nameshow").val(myObj.name);
+               $("#semestershow").prop('disabled', true);
+               $("#uidshow").prop('disabled', true);
+               $("#nameshow").prop('disabled', true);
+               alert(myObj.semester);
+          }
+      };
+      xmlhttp.open("GET", "../api.php", true);
+      xmlhttp.send();
+
+
+  </script>
+</head>
+<body>
+  <form enctype="multipart/form-data" action="upload.php" method="POST">
+    UID:<br>
+    <input type="hidden" name="uid" id="uid"><br>
+    <input type="text" id="uidshow"><br>
+    Name:<br>
+    <input type="hidden" name="name" id="name" ><br>
+    <input type="text"id="nameshow"><br>
+    Date:<br>
+    <input type="date"  name="date" value="2018-07-22"><br>
+    Money (NTD$):<br>
+    <input type="text" name="money"value="0" ><br>
+    Reason:<br>
+    <textarea name="reason" rows="5" cols="40">UTCSSA</textarea><br>
+    Item:<br>
+    <textarea name="item" rows="5" cols="40">Burger*1</textarea><br>
+    Semester:<br>
+    <input type="hidden" name="semester" id="semester" ><br>
+    <input type="text" id="semestershow"><br>
+    <p>Upload your file</p>
+    <input type="file" name="uploaded_file"></input><br/>
+    <input type="submit" value="Upload"></input>
+  </form>
+</body>
+</html>
